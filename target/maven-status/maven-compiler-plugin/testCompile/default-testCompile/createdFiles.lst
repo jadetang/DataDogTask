@@ -1,0 +1,5 @@
+com/datadog/task/StaticReportThreadTest.class
+com/datadog/task/storage/StatisticRepositoryTest.class
+com/datadog/task/TrafficAlertTest.class
+com/datadog/task/TestUtil.class
+com/datadog/task/LogParserTest.class
