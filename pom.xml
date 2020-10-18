@@ -1,82 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns="http://maven.apache.org/POM/4.0.0"
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-   <modelVersion>4.0.0</modelVersion>
-
-   <groupId>org.example</groupId>
    <artifactId>DataDogTask</artifactId>
-   <version>1.0-SNAPSHOT</version>
-
-   <properties>
-      <grok.version>0.1.9</grok.version>
-      <junit.jupiter.version>5.6.2</junit.jupiter.version>
-      <guava.version>29.0-jre</guava.version>
-      <mockito.version>1.10.19</mockito.version>
-      <logback.version>1.2.3</logback.version>
-      <commons-io.version>2.8.0</commons-io.version>
-      <lanterna.version>3.0.3</lanterna.version>
-   </properties>
-
-   <dependencies>
-      <dependency>
-         <groupId>io.krakens</groupId>
-         <artifactId>java-grok</artifactId>
-         <version>${grok.version}</version>
-      </dependency>
-      <dependency>
-         <groupId>com.google.guava</groupId>
-         <artifactId>guava</artifactId>
-         <version>${guava.version}</version>
-      </dependency>
-      <dependency>
-         <groupId>ch.qos.logback</groupId>
-         <artifactId>logback-classic</artifactId>
-         <version>${logback.version}</version>
-      </dependency>
-      <dependency>
-         <groupId>commons-io</groupId>
-         <artifactId>commons-io</artifactId>
-         <version>${commons-io.version}</version>
-      </dependency>
-      <dependency>
-         <groupId>com.googlecode.lanterna</groupId>
-         <artifactId>lanterna</artifactId>
-         <version>${lanterna.version}</version>
-      </dependency>
-      <dependency>
-         <groupId>org.junit.jupiter</groupId>
-         <artifactId>junit-jupiter</artifactId>
-         <version>${junit.jupiter.version}</version>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.mockito</groupId>
-         <artifactId>mockito-all</artifactId>
-         <version>${mockito.version}</version>
-         <scope>test</scope>
-      </dependency>
-   </dependencies>
 
    <build>
       <plugins>
          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.8.1</version>
             <configuration>
+               <encoding>utf-8</encoding>
                <source>8</source>
                <target>8</target>
-               <encoding>utf-8</encoding>
             </configuration>
+            <groupId>org.apache.maven.plugins</groupId>
+            <version>3.8.1</version>
          </plugin>
          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
+            <groupId>org.apache.maven.plugins</groupId>
             <version>3.0.0-M4</version>
          </plugin>
          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-assembly-plugin</artifactId>
             <configuration>
                <archive>
@@ -90,15 +35,80 @@
             </configuration>
             <executions>
                <execution>
-                  <phase>package</phase>
                   <goals>
                      <goal>single</goal>
                   </goals>
+                  <phase>package</phase>
                </execution>
             </executions>
+            <groupId>org.apache.maven.plugins</groupId>
          </plugin>
       </plugins>
    </build>
+   <dependencies>
+      <dependency>
+         <artifactId>java-grok</artifactId>
+         <groupId>io.krakens</groupId>
+         <version>${grok.version}</version>
+      </dependency>
+      <dependency>
+         <artifactId>guava</artifactId>
+         <groupId>com.google.guava</groupId>
+         <version>${guava.version}</version>
+      </dependency>
+      <dependency>
+         <artifactId>logback-classic</artifactId>
+         <groupId>ch.qos.logback</groupId>
+         <version>${logback.version}</version>
+      </dependency>
+      <dependency>
+         <artifactId>commons-io</artifactId>
+         <groupId>commons-io</groupId>
+         <version>${commons-io.version}</version>
+      </dependency>
+      <dependency>
+         <artifactId>lanterna</artifactId>
+         <groupId>com.googlecode.lanterna</groupId>
+         <version>${lanterna.version}</version>
+      </dependency>
+      <dependency>
+         <artifactId>commons-configuration2</artifactId>
+         <groupId>org.apache.commons</groupId>
+         <version>${configuration.version}</version>
+      </dependency>
+      <dependency>
+         <artifactId>commons-beanutils</artifactId>
+         <groupId>commons-beanutils</groupId>
+         <version>${commons-beanutils.version}</version>
+      </dependency>
+      <dependency>
+         <artifactId>junit-jupiter</artifactId>
+         <groupId>org.junit.jupiter</groupId>
+         <scope>test</scope>
+         <version>${junit.jupiter.version}</version>
+      </dependency>
+      <dependency>
+         <artifactId>mockito-all</artifactId>
+         <groupId>org.mockito</groupId>
+         <scope>test</scope>
+         <version>${mockito.version}</version>
+      </dependency>
+   </dependencies>
+   <groupId>org.example</groupId>
 
+   <modelVersion>4.0.0</modelVersion>
 
+   <properties>
+      <commons-beanutils.version>1.9.4</commons-beanutils.version>
+      <commons-io.version>2.8.0</commons-io.version>
+      <configuration.version>2.7</configuration.version>
+      <grok.version>0.1.9</grok.version>
+      <guava.version>29.0-jre</guava.version>
+      <junit.jupiter.version>5.6.2</junit.jupiter.version>
+      <lanterna.version>3.0.3</lanterna.version>
+      <logback.version>1.2.3</logback.version>
+      <mockito.version>1.10.19</mockito.version>
+   </properties>
+
+   <version>1.0-SNAPSHOT</version>
 </project>

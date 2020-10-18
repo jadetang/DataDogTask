@@ -1,12 +1,11 @@
 package com.datadog.task.model;
 
-import java.time.Instant;
-
 /**
  * A class stores statistic for one second.
  */
 public class Statistic {
 
+    //The epoch second this class hold statistic for
     private final long timestamp;
 
     private final Counter sectionCounter;
@@ -17,16 +16,16 @@ public class Statistic {
 
     private long requestNumber;
 
-    public long getTimestamp() {
-        return timestamp;
-    }
-
     public Statistic(Long timestamp) {
         this.timestamp = timestamp;
         this.sectionCounter = new Counter();
         this.clientIpCounter = new Counter();
         this.authCounter = new Counter();
         this.requestNumber = 0L;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
     }
 
     public void update(LogRecord record) {

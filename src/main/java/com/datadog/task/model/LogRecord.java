@@ -3,6 +3,9 @@ package com.datadog.task.model;
 import java.util.Objects;
 import java.util.StringJoiner;
 
+/**
+ * A pojo holds one line of CLF HTTP access log.
+ */
 public class LogRecord {
 
     private final String request;
@@ -14,6 +17,14 @@ public class LogRecord {
     private final String auth;
 
     private final String clientIp;
+
+    private LogRecord(String request, long timestamp, String section, String auth, String clientIp) {
+        this.request = request;
+        this.timestamp = timestamp;
+        this.section = section;
+        this.auth = auth;
+        this.clientIp = clientIp;
+    }
 
     public String getRequest() {
         return request;
@@ -33,14 +44,6 @@ public class LogRecord {
 
     public String getClientIp() {
         return clientIp;
-    }
-
-    private LogRecord(String request, long timestamp, String section, String auth, String clientIp) {
-        this.request = request;
-        this.timestamp = timestamp;
-        this.section = section;
-        this.auth = auth;
-        this.clientIp = clientIp;
     }
 
     @Override

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 /**
@@ -39,14 +38,16 @@ public class Counter {
     }
 
     /**
-     * Return top k items with highest frequencies. If there is a tie, sort the items with alphabetical order.
-     * If the number of items is less than k, return all items.
-     * @param k
+     * Return top k items with highest frequencies. If there is a tie, sort the items with alphabetical order. If the
+     * number of items is less than k, return all items.
+     *
+     * @param k top k
      * @return A sorted list of SimpleEntry<String, Integer>
      */
     public List<Entry<String, Integer>> topK(int k) {
-        return counter.entrySet().stream().sorted( (e1, e2) -> e1.getValue().compareTo(e2.getValue()) == 0 ? e1.getKey().compareTo(e2.getKey()) :
-                e2.getValue().compareTo(e1.getValue())).limit(k).collect(Collectors.toList());
+        return counter.entrySet().stream()
+                .sorted((e1, e2) -> e1.getValue().compareTo(e2.getValue()) == 0 ? e1.getKey().compareTo(e2.getKey()) :
+                        e2.getValue().compareTo(e1.getValue())).limit(k).collect(Collectors.toList());
     }
 
     @Override
