@@ -59,10 +59,10 @@ public class LogGenerator {
     public static void main(String[] args) {
         String filePath = "/tmp/access.log";
         int logPerSeconds = 100;
-        if (args.length == 1) {
+        if (args.length == 2) {
             filePath = args[0];
             logPerSeconds = Integer.parseInt(args[1]);
-        } else if (args.length == 2) {
+        } else if (args.length == 1) {
             filePath = args[0];
         }
         log.info("Generate {} logs to {} every second.", logPerSeconds, filePath);

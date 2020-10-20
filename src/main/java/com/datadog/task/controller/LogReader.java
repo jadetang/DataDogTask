@@ -6,6 +6,7 @@ import com.datadog.task.storage.StatisticsRepository;
 import com.datadog.task.util.LogParser;
 import com.google.common.eventbus.EventBus;
 import java.io.File;
+import java.time.Instant;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -70,7 +71,9 @@ public class LogReader extends LifeCycle {
         @Override
         public void handle(String logLine) {
             final Optional<LogRecord> logRecord = LogParser.parse(logLine);
+
             logRecord.ifPresent(l -> {
+                log.debug("Latest log time {}", Instant.ofEpochSecond(l.getTimestamp()));
                 eventBus.post(new NewLogReceivedEvent());
                 statisticsRepository.addRecord(l);
             });
