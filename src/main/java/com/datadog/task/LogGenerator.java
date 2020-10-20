@@ -59,7 +59,7 @@ public class LogGenerator {
 
     public static void main(String[] args) {
         String filePath = "/tmp/access.log";
-        int logPerSeconds = 100;
+        int logPerSeconds = 10;
         if (args.length == 2) {
             filePath = args[0];
             logPerSeconds = Integer.parseInt(args[1]);
