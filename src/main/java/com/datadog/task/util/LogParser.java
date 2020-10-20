@@ -12,9 +12,12 @@ import java.time.format.DateTimeParseException;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LogParser {
 
+    private static final Logger log = LoggerFactory.getLogger(LogParser.class);
     public static final String AUTH = "auth";
     public static final String CLIENT_IP = "clientip";
     public static final String REQUEST = "request";
@@ -56,6 +59,7 @@ public class LogParser {
         try {
             return OffsetDateTime.parse(timestamp, FORMATTER).toEpochSecond();
         } catch (DateTimeParseException e) {
+            log.error("Can not parse {}, {}", timestamp, e.getMessage());
             return null;
         }
     }
