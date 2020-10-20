@@ -1,6 +1,5 @@
 package com.datadog.task.controller;
 
-import com.datadog.task.model.AggregatedStatistics;
 import com.datadog.task.model.NewLogReceivedEvent;
 import com.datadog.task.storage.StatisticsRepository;
 import com.google.common.eventbus.AllowConcurrentEvents;
@@ -52,7 +51,7 @@ public class TrafficAlert extends LifeCycle {
         this.timeWindowInSec = timeWindowInSec;
         this.statisticsRepository = statisticsRepository;
         this.inAlert = new AtomicBoolean();
-        this.executorService = Executors.newScheduledThreadPool(10);
+        this.executorService = Executors.newSingleThreadScheduledExecutor();
         this.alertMessage = new AtomicReference<>();
     }
 
@@ -62,12 +61,13 @@ public class TrafficAlert extends LifeCycle {
         if (inAlert.get()) {
             return;
         }
-        final long totalRequest = statisticsRepository.getTotalRequests(timeWindowInSec);
-        log.debug("total requests {}", totalRequest);
-        if (totalRequest >= thresholdPerSec * timeWindowInSec && inAlert
+        final long totalRequests = statisticsRepository.getTotalRequests(timeWindowInSec);
+        log.debug("total requests {}", totalRequests);
+        if (totalRequests >= thresholdPerSec * timeWindowInSec && inAlert
                 .compareAndSet(false, true)) {
+            log.info("High traffic generated, total request {}", totalRequests);
             alertMessage.set(String.format("High traffic generated an alert - hits = %d, triggered at %s",
-                    totalRequest,
+                    totalRequests,
                     DATE_TIME_FORMATTER.format(Instant.now())));
         }
     }
@@ -82,11 +82,13 @@ public class TrafficAlert extends LifeCycle {
 
     @Override
     void doInitialize() {
+        //launch a thread try to reset the alert every second.
         executorService.scheduleAtFixedRate(() -> {
             if (inAlert.get()) {
                 final long totalRequests = statisticsRepository.getTotalRequests(timeWindowInSec);
                 log.debug("total requests {}", totalRequests);
                 if (totalRequests < thresholdPerSec * timeWindowInSec) {
+                    log.info("High traffic ended, total request {}", totalRequests);
                     inAlert.set(false);
                 }
             }

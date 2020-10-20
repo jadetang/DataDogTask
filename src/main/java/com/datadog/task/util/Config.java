@@ -22,7 +22,7 @@ public class Config {
     private static final String ALERT_THRESHOLD_QPS = "alert.threshold.qps";
     private static final int DEFAULT_TIME_WINDOW_LENGTH_IN_SEC = 120;
     private static final int DEFAULT_TOP_K = 5;
-    private static final int DEFAULT_STATISTICS_REPORT_INTERVAL_IN_SEC = 5;
+    private static final int DEFAULT_STATISTICS_REPORT_INTERVAL_IN_SEC = 10;
     private static final int DEFAULT_THRESHOLD_QPS = 20;
     private final Configuration configuration;
 

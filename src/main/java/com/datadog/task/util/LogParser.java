@@ -25,7 +25,7 @@ public class LogParser {
         GrokCompiler grokCompiler = GrokCompiler.newInstance();
         grokCompiler.registerDefaultPatterns();
         GROK = grokCompiler.compile("%{COMMONAPACHELOG}");
-        FORMATTER = DateTimeFormatter.ofPattern("dd/MMM/yyyy:H:m:s Z");
+        FORMATTER = DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z");
     }
 
     private LogParser() {

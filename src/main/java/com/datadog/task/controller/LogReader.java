@@ -69,7 +69,6 @@ public class LogReader extends LifeCycle {
 
         @Override
         public void handle(String logLine) {
-            log.debug("receive log: {}", logLine);
             final Optional<LogRecord> logRecord = LogParser.parse(logLine);
             logRecord.ifPresent(l -> {
                 eventBus.post(new NewLogReceivedEvent());

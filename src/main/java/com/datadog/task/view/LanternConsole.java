@@ -17,6 +17,8 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import java.io.IOException;
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
@@ -27,22 +29,25 @@ import org.slf4j.LoggerFactory;
  */
 public class LanternConsole {
 
-    public static final String WELCOME_MESSAGE = ">_ SYSTEM ON，WELCOME";
-    public static final String GOODBYE = ">_ GOODBYE";
-    public static final String EXIT_MESSAGE = ">_ SYSTEM EXIT HOTKEY ON";
-    public static final String QUIT_HINT = "Press F10 to quit";
-    public static final int HEADER_START_ROW = 1;
-    public static final int STATISTICS_START_ROW = 3;
     private static final Logger log = LoggerFactory.getLogger(LanternConsole.class);
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            .withZone(ZoneId.systemDefault());
+
+    private static final String WELCOME_MESSAGE = ">_ SYSTEM ON，WELCOME";
+    private static final String GOODBYE = ">_ GOODBYE";
+    private static final String EXIT_MESSAGE = ">_ SYSTEM EXIT HOTKEY ON";
+    private static final String QUIT_HINT = "Press F10 to quit";
+    private static final int HEADER_START_ROW = 1;
+    private static final int STATISTICS_START_ROW = 3;
     private static final Long REFRESH_INTERVAL = 500L;
+
     private final TerminalSize terminalSize;
-
     private final Screen screen;
-
     private final HttpTrafficLogMonitor httpTrafficLogMonitor;
-
     //the latest timestamp when the current alert is still on.
     private Long alertOnTime;
+    //the timestamp when the last alert recovered.
+    private Instant alertRecoveredTime;
 
     /**
      * Construct a terminal with width and height.
@@ -89,7 +94,6 @@ public class LanternConsole {
     }
 
     private void showAlert(int alertRow) {
-        log.debug("Alert on time {}, now {}", alertOnTime, Instant.now().getEpochSecond());
         if (httpTrafficLogMonitor.inAlert()) {
             alertOnTime = Instant.now().getEpochSecond();
             TextGraphics alert = screen.newTextGraphics();
@@ -98,12 +102,17 @@ public class LanternConsole {
         } else {
             //If the alert is recovered, keep displaying recovered message for almost 10 seconds.
             if (alertOnTime != null && Instant.now().getEpochSecond() - alertOnTime <= 10) {
+                if (alertRecoveredTime == null) {
+                    alertRecoveredTime = Instant.now();
+                }
                 TextGraphics alert = screen.newTextGraphics();
                 alert.setForegroundColor(ANSI.GREEN);
-                alert.putString(1, alertRow, "High traffic alert recovered.", SGR.CIRCLED);
+                alert.putString(1, alertRow, String.format("High traffic alert recovered at %s",
+                        DATE_TIME_FORMATTER.format(alertRecoveredTime)), SGR.CIRCLED);
             } else {
                 // After 10 seconds, set alertOnTime to null so the recovered message is not displayed.
                 alertOnTime = null;
+                alertRecoveredTime = null;
             }
         }
     }
