@@ -24,7 +24,8 @@ hs_err_pid*
 
 .idea
 *.iml
-*/target
+
+/target
 
 *.cert
 *.key

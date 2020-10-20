@@ -6,8 +6,10 @@ import com.google.common.annotations.VisibleForTesting;
 import io.krakens.grok.api.Grok;
 import io.krakens.grok.api.GrokCompiler;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
@@ -25,7 +27,7 @@ public class LogParser {
         GrokCompiler grokCompiler = GrokCompiler.newInstance();
         grokCompiler.registerDefaultPatterns();
         GROK = grokCompiler.compile("%{COMMONAPACHELOG}");
-        FORMATTER = DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z");
+        FORMATTER = DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z", Locale.US).withZone(ZoneId.systemDefault());
     }
 
     private LogParser() {
